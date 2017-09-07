@@ -53,12 +53,12 @@ def get_welcome_response():
     speech_output = "Welcome to your child companion setup. "\
                     "Please tell me the name of the child that will be "\
                     "using this application by saying, " \
-                    "my favorite color is red"
+                    "my child's name is Scarlet"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "Please tell me the name of the child that will be "\
                     "using this application by saying, " \
-                    "my favorite color is red"
+                    "my child's name is Scarlet"
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -102,7 +102,7 @@ def set_child_name_in_session(intent, session):
         reprompt_text = "I'm not sure what your child's name is. " \
                         "Please tell me the name of the child that will be "\
                         "using this application by saying, " \
-                        "my favorite color is red"
+                        "my child's name is Scarlet"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -120,7 +120,7 @@ def get_color_from_session(intent, session):
         speech_output = "I'm not sure what your child's name is. " \
                         "Please tell me the name of the child that will be "\
                         "using this application by saying, " \
-                        "my favorite color is red"
+                        "my child's name is Scarlet"
         should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
@@ -162,7 +162,7 @@ def on_intent(intent_request, session):
     # Dispatch to your skill's intent handlers
     if intent_name == "MyChildsNameIs":
         return set_child_name_in_session(intent, session)
-    elif intent_name == "WhatsMyColorIntent":
+    elif intent_name == "WhatsMyChildsName":
         return get_color_from_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
