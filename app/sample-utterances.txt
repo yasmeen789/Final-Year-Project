@@ -1,0 +1,17 @@
+WhatsMycolourIntent what's my favorite colour
+WhatsMycolourIntent what is my favorite colour
+WhatsMycolourIntent what's my colour
+WhatsMycolourIntent what is my colour
+WhatsMycolourIntent my colour
+WhatsMycolourIntent my favorite colour
+WhatsMycolourIntent get my colour
+WhatsMycolourIntent get my favorite colour
+WhatsMycolourIntent give me my favorite colour
+WhatsMycolourIntent give me my colour
+WhatsMycolourIntent what my colour is
+WhatsMycolourIntent what my favorite colour is
+WhatsMycolourIntent yes
+WhatsMycolourIntent yup
+WhatsMycolourIntent sure
+WhatsMycolourIntent yes please
+MyChildsNameIsIntent my child's name is {Child}
