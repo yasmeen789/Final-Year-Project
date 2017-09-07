@@ -2,7 +2,6 @@
 This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
 The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well
 as testing instructions are located at http://amzn.to/1LzFrj6
-
 For additional samples, visit the Alexa Skills Kit Getting Started guide at
 http://amzn.to/1LGWsLG
 """
@@ -169,7 +168,6 @@ def on_intent(intent_request, session):
 
 def on_session_ended(session_ended_request, session):
     """ Called when the user ends the session.
-
     Is not called when the skill returns should_end_session=true
     """
     print("on_session_ended requestId=" + session_ended_request['requestId'] +

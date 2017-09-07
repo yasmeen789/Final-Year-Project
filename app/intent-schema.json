@@ -1,16 +1,16 @@
 {
   "intents": [
     {
-      "intent": "MyChildsNameIsIntent",
       "slots": [
         {
           "name": "Child",
           "type": "LIST_OF_CHILD_NAMES"
         }
-      ]
+      ],
+      "intent": "MyChildsNameIs"
     },
     {
-      "intent": "WhatsMyColorIntent"
+      "intent": "WhatsMyChildsName"
     },
     {
       "intent": "AMAZON.HelpIntent"
