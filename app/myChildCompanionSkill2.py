@@ -103,6 +103,33 @@ def set_child_name_in_session(intent, session):
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+def createAnswertoConfirm(child_name_confirm):
+    return {"childNameConfirm": child_name_confirm}
+
+
+def set_child_name_confirm_in_session(intent, session):
+    """ Sets the confirmation child's name in the session and prepares the speech to reply to the
+    user.
+    """
+
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+
+    if 'ChildCorrect' in intent['slots']:
+        child_name_confirm = intent['slots']['ChildCorrect']['value']
+        session_attributes = createAnswertoConfirm(child_name_confirm)
+        if child_name_confirm == 'yes':
+            speech_output = "Fantastic! Goodbye."
+            should_end_session = True
+        elif child_name_confirm == 'no':
+            speech_output = "I did not record your child's name, goodbye."
+            should_end_session = True
+        else:
+            speech_output = "You're not supposed to end up here."
+            should_end_session = True
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
 
 def get_color_from_session(intent, session):
     session_attributes = {}
@@ -112,6 +139,7 @@ def get_color_from_session(intent, session):
         child_name = session['attributes']['childName']
         speech_output = "Fantastic! " \
                         ". Goodbye."
+#! This is where I need to put the next question
         should_end_session = True
     else:
         speech_output = "I'm not sure what your child's name is. " \
@@ -160,7 +188,7 @@ def on_intent(intent_request, session):
     if intent_name == "MyChildsNameIs":
         return set_child_name_in_session(intent, session)
     elif intent_name == "ConfirmChildsName":
-        return get_color_from_session(intent, session)
+        return set_child_name_confirm_in_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
