@@ -90,9 +90,9 @@ def set_child_name_in_session(intent, session):
         child_name = intent['slots']['Child']['value']
         session_attributes = create_child_name(child_name)
         speech_output = "Your child's name is " + \
-                        child_name + ", is that correct?"
+                        child_name + ", is that true or false?"
         reprompt_text = ". Your child's name is " + \
-                        child_name + ", is that correct?"
+                        child_name + ", is that true or false?"
     else:
         speech_output = "I'm not sure what your child's name is. " \
                         "Please try again."
@@ -102,6 +102,43 @@ def set_child_name_in_session(intent, session):
                         "my child's name is Scarlet"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
+def create_confirm_name(confirm_name):
+    return {"confirmName": confirm_name}
+
+
+def set_confirm_name_in_session(intent, session):
+    """ Sets the confirmation of the child's name in the session and prepares the speech to reply to the
+    user.
+    """
+
+    card_title = intent['name']
+    session_attributes = {}
+    reprompt_text = None
+    should_end_session = False
+
+    if 'ChildCorrect' in intent['slots']:
+        confirm_name = intent['slots']['ChildCorrect']['value']
+        session_attributes = create_confirm_name(confirm_name)
+        speech_output = "You said " + confirm_name
+        if confirm_name == 'true':
+            speech_output = "Fantastic! Goodbye."
+            should_end_session = True
+        elif confirm_name == 'false':
+            speech_output = "No problem, I did not record your child's name, goodbye."
+            should_end_session = True
+        else:
+            speech_output = "You're not supposed to end up here."
+            should_end_session = True
+    else:
+        speech_output = "I'm not sure what your child's name is. " \
+                        "Please tell me the name of the child that will be "\
+                        "using this application by saying, " \
+                        "my child's name is Scarlet"
+        should_end_session = False
+
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
 
 
 def get_color_from_session(intent, session):
@@ -160,7 +197,7 @@ def on_intent(intent_request, session):
     if intent_name == "MyChildsNameIs":
         return set_child_name_in_session(intent, session)
     elif intent_name == "ConfirmChildsName":
-        return get_color_from_session(intent, session)
+        return set_confirm_name_in_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":

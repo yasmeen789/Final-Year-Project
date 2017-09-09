@@ -10,7 +10,13 @@
       "intent": "MyChildsNameIs"
     },
     {
-      "intent": "WhatsMyChildsName"
+      "slots": [
+        {
+          "name": "ChildCorrect",
+          "type": "CHILD_NAME_CORRECT"
+        }
+      ],
+      "intent": "ConfirmChildsName"
     },
     {
       "intent": "AMAZON.HelpIntent"

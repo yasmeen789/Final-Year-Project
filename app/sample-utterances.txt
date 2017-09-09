@@ -1,17 +1,2 @@
 MyChildsNameIs my child's name is {Child}
-WhatsMyChildsName what's my favorite color
-WhatsMyChildsName what is my favorite color
-WhatsMyChildsName what's my color
-WhatsMyChildsName what is my color
-WhatsMyChildsName my color
-WhatsMyChildsName my favorite color
-WhatsMyChildsName get my color
-WhatsMyChildsName get my favorite color
-WhatsMyChildsName give me my favorite color
-WhatsMyChildsName give me my color
-WhatsMyChildsName what my color is
-WhatsMyChildsName what my favorite color is
-WhatsMyChildsName yes
-WhatsMyChildsName yup
-WhatsMyChildsName sure
-WhatsMyChildsName yes please
+ConfirmChildsName {ChildCorrect}
