@@ -1,2 +1,10 @@
 MyChildsNameIs my child's name is {Child}
 ConfirmChildsName {ChildCorrect}
+ConfirmChildsName that is {ChildCorrect}
+MyChildsDateIs he was born on the {Date}
+MyChildsDateIs she was born on the {Date}
+MyChildsDateIs they were born on the {Date}
+MyChildsDateIs his birthday is the {Date}
+MyChildsDateIs her birthday is the {Date}
+MyChildsDateIs their birthday is the {Date}
+WhatsMyChildsName yes

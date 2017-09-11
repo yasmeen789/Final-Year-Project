@@ -19,6 +19,36 @@
       "intent": "ConfirmChildsName"
     },
     {
+      "slots": [
+        {
+          "name": "Date",
+          "type": "LIST_OF_DATES"
+        }
+      ],
+      "intent": "MyChildsDateIs"
+    },
+    {
+      "slots": [
+        {
+          "name": "Month",
+          "type": "LIST_OF_MONTHS"
+        }
+      ],
+      "intent": "MyChildsMonthIs"
+    },
+    {
+      "slots": [
+        {
+          "name": "Year",
+          "type": "LIST_OF_YEARS"
+        }
+      ],
+      "intent": "MyChildsYearIs"
+    },
+    {
+      "intent": "WhatsMyChildsName"
+    },
+    {
       "intent": "AMAZON.HelpIntent"
     }
   ]
