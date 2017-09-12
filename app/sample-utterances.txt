@@ -7,4 +7,5 @@ MyChildsDateIs they were born on the {Date}
 MyChildsDateIs his birthday is the {Date}
 MyChildsDateIs her birthday is the {Date}
 MyChildsDateIs their birthday is the {Date}
+MyChildsDateIs the {Date} of September two thousand and thirteen
 WhatsMyChildsName yes

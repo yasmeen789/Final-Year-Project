@@ -106,7 +106,7 @@ def set_child_name_in_session(intent, session):
 def create_child_name_confirm(child_name_confirm):
     return {"childNameConfirm": child_name_confirm}
 
-def get_color_from_session(intent, session):
+def set_child_name_confirm_in_session(intent, session):
     session_attributes = {}
     reprompt_text = None
 
@@ -114,8 +114,10 @@ def get_color_from_session(intent, session):
         child_name_confirm = intent['slots']['ChildCorrect']['value']
         speech_output = "You said " + child_name_confirm
         if child_name_confirm == 'true':
-            speech_output = "Yay! We have recorded your child's name!"
-            should_end_session = True
+            speech_output = "Fantastic!" \
+                            "Please tell me your child's date of birth " \
+                            "by saying, the 5th August 2010"
+            should_end_session = False
         elif child_name_confirm == 'false':
             speech_output = "I did not record your child's name. " \
                             "Please tell me the name of the child that will be "\
@@ -138,6 +140,59 @@ def get_color_from_session(intent, session):
     return build_response(session_attributes, build_speechlet_response(
         intent['name'], speech_output, reprompt_text, should_end_session))
 
+def create_date_of_birth(date_of_birth):
+    return {"dateOfBirth": date_of_birth}
+
+def create_month_of_birth(month_of_birth):
+    return {"monthOfBirth": month_of_birth}
+
+def create_year_of_birth(year_of_birth):
+    return {"yearOfBirth": year_of_birth}
+
+def set_date_of_birth_in_session(intent, session):
+    session_attributes = {}
+    reprompt_text = None
+
+    if 'Date' in intent['slots']:
+        date_of_birth = intent['slots']['Date']['value']
+        if 'Month' in intent['slots']:
+            month_of_birth = intent['slots']['Month']['value']
+            if 'Year' in intent['slots']:
+                year_of_birth = intent['slots']['Year']['value']
+                speech_output = "You said the " + date_of_birth + " of " \
+                + month_of_birth + year_of_birth
+                should_end_session = True
+    else:
+        speech_output = "I'm not sure what your child's name is. " \
+                        "Please tell me the name of the child that will be "\
+                        "using this application by saying, " \
+                        "my child's name is Scarlet"
+        should_end_session = False
+
+    # Setting reprompt_text to None signifies that we do not want to reprompt
+    # the user. If the user does not respond or says something that is not
+    # understood, the session will end.
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
+
+def get_color_from_session(intent, session):
+    session_attributes = {}
+    reprompt_text = None
+
+    if 'Date' in intent['slots']:
+        date_of_birth = intent['slots']['Date']['value']
+        speech_output = "You said the " + date_of_birth + " of September 2015"
+        should_end_session = True
+    else:
+        speech_output = "I'm not sure what your favorite color is. " \
+                        "You can say, my favorite color is red."
+        should_end_session = False
+
+    # Setting reprompt_text to None signifies that we do not want to reprompt
+    # the user. If the user does not respond or says something that is not
+    # understood, the session will end.
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
 
 # --------------- Events ------------------
 
@@ -172,7 +227,9 @@ def on_intent(intent_request, session):
     if intent_name == "MyChildsNameIs":
         return set_child_name_in_session(intent, session)
     elif intent_name == "ConfirmChildsName":
-        return get_color_from_session(intent, session)
+        return set_child_name_confirm_in_session(intent, session)
+    elif intent_name == "MyChildsDateIs":
+        return set_date_of_birth_in_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
