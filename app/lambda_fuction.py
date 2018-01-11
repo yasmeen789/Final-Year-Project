@@ -125,8 +125,10 @@ def set_childs_details_in_session(intent, session):
         speech_output = "I'm not sure what your child's name is. " \
                         "Please try again."
         reprompt_text = "I'm not sure what your child's name is. " \
-                        "You can tell me your child's name by saying, " \
-                        "my child's name is Scarlett."
+                        "Please tell me the name and date of birth of the child "\
+                        " that will be using this application."\
+                        " For example, my child's name is "\
+                        "Scarlet and her date of birth is the 21st September 2003."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -135,24 +137,41 @@ def create_confirm_details_attributes(confirm_details):
     return {"confirmDetails": confirm_details}
 
 def set_confirm_details_from_session(intent, session):
+    """ Sets the confirm in the session and prepares the speech to reply to the
+    user.
+    """
     session_attributes = {}
     reprompt_text = None
 
-    if session.get('attributes', {}) and "confirmDetails" in session.get('attributes', {}):
-        confirm_details = session['attributes']['confirmDetails']
-        speech_output = "You said " + confirm_details + ". Fantastic, goodbye."
-        should_end_session = True
+    card_title = intent['name']
+    session_attributes = {}
+
+    if 'ConfirmDetails' in intent['slots']:
+        confirm_details = intent['slots']['ConfirmDetails']['value']
+        session_attributes = create_confirm_details_attributes(confirm_details)
+        if confirm_details == 'true':
+            speech_output = "You said" + confirm_details
+            should_end_session = True
+        elif confirm_details == 'false':
+            speech_output = "Please tell me the name and date of birth of the child "\
+                            " that will be using this application."\
+                            " For example, my child's name is "\
+                            "Scarlet and her date of birth is the 21st September 2003."
+            should_end_session = False
+        else:
+            speech_output = "I don't know what you said"
+
+
     else:
-        speech_output = "Incorrect, you said " + confirm_details \
-                        ". You can say, my child's name is Scarlett."
-        should_end_session = False
-
-    # Setting reprompt_text to None signifies that we do not want to reprompt
-    # the user. If the user does not respond or says something that is not
-    # understood, the session will end.
+        speech_output = "I'm not sure what your child's name is. " \
+                        "Please try again."
+        reprompt_text = "I'm not sure what your child's name is. " \
+                        "Please tell me the name and date of birth of the child "\
+                        " that will be using this application."\
+                        " For example, my child's name is "\
+                        "Scarlet and her date of birth is the 21st September 2003."
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
-
+        card_title, speech_output, reprompt_text, should_end_session))
 
 # --------------- Events ------------------
 

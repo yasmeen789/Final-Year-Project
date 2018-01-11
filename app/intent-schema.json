@@ -5,12 +5,30 @@
         {
           "name": "Child",
           "type": "LIST_OF_CHILD_NAMES"
+        },
+        {
+          "name": "Date",
+          "type": "LIST_OF_DATES"
+        },
+        {
+          "name": "Month",
+          "type": "LIST_OF_MONTHS"
+        },
+        {
+          "name": "Year",
+          "type": "LIST_OF_YEARS"
         }
       ],
-      "intent": "MyChildsNameIs"
+      "intent": "MyChildsNameIsIntent"
     },
     {
-      "intent": "WhatsMyChildsName"
+      "slots": [
+        {
+          "name": "ConfirmDetails",
+          "type": "CHILD_NAME_CORRECT"
+        }
+      ],
+      "intent": "ConfirmChildsNameIntent"
     },
     {
       "intent": "AMAZON.HelpIntent"

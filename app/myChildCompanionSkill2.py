@@ -50,16 +50,14 @@ def get_welcome_response():
     session_attributes = {}
     card_title = "Welcome"
     speech_output = "Welcome to your child companion setup. "\
-                    "Please tell me the name and date of birth of the child "\
-                    " that will be using this application."\
-                    " For example, my child's name is "\
-                    "Scarlet and her date of birth is the 21st September 2003."
+                    "Please tell me the name of the child that will be "\
+                    "using this application by saying, " \
+                    "my child's name is Scarlet"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me the name and date of birth of the child "\
-                    " that will be using this application."\
-                    " For example, my child's name is "\
-                    "Scarlet and her date of birth is the 21st September 2003."
+    reprompt_text = "Please tell me the name of the child that will be "\
+                    "using this application by saying, " \
+                    "my child's name is Scarlet"
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -75,76 +73,79 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 
-def create_childs_name_attributes(childs_name):
-    return {"childsName": childs_name}
+def create_child_name(child_name):
+    return {"childName": child_name}
 
-def create_date_of_birth(date_of_birth):
-    return {"dateOfBirth": date_of_birth}
 
-def create_month_of_birth(month_of_birth):
-    return {"monthOfBirth": month_of_birth}
-
-def create_year_of_birth(year_of_birth):
-    return {"yearOfBirth": year_of_birth}
-
-# def get_childs_details_from_session(intent, session):
-#     """ Sets the child's name in the session and prepares the speech to reply to the
-#     user.
-#     """
-#   ## Not sure whether this is needed or not
-
-def set_childs_details_in_session(intent, session):
-    session_attributes = {}
-    reprompt_text = None
+def set_child_name_in_session(intent, session):
+    """ Sets the child's name in the session and prepares the speech to reply to the
+    user.
+    """
 
     card_title = intent['name']
     session_attributes = {}
     should_end_session = False
 
     if 'Child' in intent['slots']:
-        childs_name = intent['slots']['Child']['value']
-        session_attributes = create_childs_name_attributes(childs_name)
-        if 'Date' in intent['slots']:
-            date_of_birth = intent['slots']['Date']['value']
-            session_attributes = create_date_of_birth(date_of_birth)
-            if 'Month' in intent['slots']:
-                month_of_birth = intent['slots']['Month']['value']
-                session_attributes = create_month_of_birth(month_of_birth)
-                if 'Year' in intent['slots']:
-                    year_of_birth = intent['slots']['Year']['value']
-                    session_attributes = create_year_of_birth(year_of_birth)
-        speech_output = "Your child's name is " + childs_name + \
-                        ", and their date of birth is the " \
-                        + date_of_birth + " of " + month_of_birth + \
-                        year_of_birth + ". Is this true or false?"
-        reprompt_text = "Your child's name is " + childs_name + \
-                        ", and their date of birth is the " \
-                        + date_of_birth + " of " + month_of_birth + \
-                        year_of_birth + ". Is this true or false?"
+        child_name = intent['slots']['Child']['value']
+        session_attributes = create_child_name(child_name)
+        speech_output = "Your child's name is " + \
+                        child_name + ", is that correct?"
+        reprompt_text = ". Your child's name is " + \
+                        child_name + ", is that correct?"
     else:
         speech_output = "I'm not sure what your child's name is. " \
                         "Please try again."
         reprompt_text = "I'm not sure what your child's name is. " \
-                        "You can tell me your child's name by saying, " \
-                        "my child's name is Scarlett."
+                        "Please tell me the name of the child that will be "\
+                        "using this application by saying, " \
+                        "my child's name is Scarlet"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+def createAnswertoConfirm(child_name_confirm):
+    return {"childNameConfirm": child_name_confirm}
 
-def create_confirm_details_attributes(confirm_details):
-    return {"confirmDetails": confirm_details}
 
-def set_confirm_details_from_session(intent, session):
+def set_child_name_confirm_in_session(intent, session):
+    """ Sets the confirmation child's name in the session and prepares the speech to reply to the
+    user.
+    """
+
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+
+    if 'ChildCorrect' in intent['slots']:
+        child_name_confirm = intent['slots']['ChildCorrect']['value']
+        session_attributes = createAnswertoConfirm(child_name_confirm)
+        if child_name_confirm == 'yes':
+            speech_output = "Fantastic! Goodbye."
+            should_end_session = True
+        elif child_name_confirm == 'no':
+            speech_output = "I did not record your child's name, goodbye."
+            should_end_session = True
+        else:
+            speech_output = "You're not supposed to end up here."
+            should_end_session = True
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def get_color_from_session(intent, session):
     session_attributes = {}
     reprompt_text = None
 
-    if session.get('attributes', {}) and "confirmDetails" in session.get('attributes', {}):
-        confirm_details = session['attributes']['confirmDetails']
-        speech_output = "You said " + confirm_details + ". Fantastic, goodbye."
+    if session.get('attributes', {}) and "childName" in session.get('attributes', {}):
+        child_name = session['attributes']['childName']
+        speech_output = "Fantastic! " \
+                        ". Goodbye."
+#! This is where I need to put the next question
         should_end_session = True
     else:
-        speech_output = "Incorrect, you said " + confirm_details \
-                        ". You can say, my child's name is Scarlett."
+        speech_output = "I'm not sure what your child's name is. " \
+                        "Please tell me the name of the child that will be "\
+                        "using this application by saying, " \
+                        "my child's name is Scarlet"
         should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
@@ -184,10 +185,10 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "MyChildsNameIsIntent":
-        return set_childs_details_in_session(intent, session)
-    elif intent_name == "ConfirmChildsNameIntent":
-        return set_confirm_details_from_session(intent, session)
+    if intent_name == "MyChildsNameIs":
+        return set_child_name_in_session(intent, session)
+    elif intent_name == "ConfirmChildsName":
+        return set_child_name_confirm_in_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":

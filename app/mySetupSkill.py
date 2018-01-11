@@ -143,8 +143,8 @@ def set_confirm_details_from_session(intent, session):
         speech_output = "You said " + confirm_details + ". Fantastic, goodbye."
         should_end_session = True
     else:
-        speech_output = "Incorrect, you said " + confirm_details \
-                        ". You can say, my child's name is Scarlett."
+        speech_output = "You have landed here" \
+                        "You can say, my child's name is Scarlett."
         should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
