@@ -125,8 +125,10 @@ def set_childs_details_in_session(intent, session):
         speech_output = "I'm not sure what your child's name is. " \
                         "Please try again."
         reprompt_text = "I'm not sure what your child's name is. " \
-                        "You can tell me your child's name by saying, " \
-                        "my child's name is Scarlett."
+                        "Please tell me the name and date of birth of the child "\
+                        " that will be using this application."\
+                        " For example, my child's name is "\
+                        "Scarlet and her date of birth is the 21st September 2003."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
@@ -161,11 +163,13 @@ def set_confirm_details_from_session(intent, session):
 
 
     else:
-        speech_output = "I'm not sure what your favorite color is. " \
+        speech_output = "I'm not sure what your child's name is. " \
                         "Please try again."
-        reprompt_text = "I'm not sure what your favorite color is. " \
-                        "You can tell me your favorite color by saying, " \
-                        "my favorite color is red."
+        reprompt_text = "I'm not sure what your child's name is. " \
+                        "Please tell me the name and date of birth of the child "\
+                        " that will be using this application."\
+                        " For example, my child's name is "\
+                        "Scarlet and her date of birth is the 21st September 2003."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
