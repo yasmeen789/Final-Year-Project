@@ -5,21 +5,7 @@
         {
           "name": "Child",
           "type": "LIST_OF_CHILD_NAMES"
-        }
-      ],
-      "intent": "MyChildsNameIs"
-    },
-    {
-      "slots": [
-        {
-          "name": "ChildCorrect",
-          "type": "CHILD_NAME_CORRECT"
-        }
-      ],
-      "intent": "ConfirmChildsName"
-    },
-    {
-      "slots": [
+        },
         {
           "name": "Date",
           "type": "LIST_OF_DATES"
@@ -33,10 +19,16 @@
           "type": "LIST_OF_YEARS"
         }
       ],
-      "intent": "MyChildsDateIs"
+      "intent": "MyChildsNameIsIntent"
     },
     {
-      "intent": "WhatsMyChildsName"
+      "slots": [
+        {
+          "name": "ConfirmDetails",
+          "type": "CHILD_NAME_CORRECT"
+        }
+      ],
+      "intent": "ConfirmChildsNameIntent"
     },
     {
       "intent": "AMAZON.HelpIntent"

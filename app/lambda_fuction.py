@@ -135,23 +135,50 @@ def create_confirm_details_attributes(confirm_details):
     return {"confirmDetails": confirm_details}
 
 def set_confirm_details_from_session(intent, session):
+    """ Sets the confirm in the session and prepares the speech to reply to the
+    user.
+    """
     session_attributes = {}
     reprompt_text = None
 
-    if session.get('attributes', {}) and "confirmDetails" in session.get('attributes', {}):
-        confirm_details = session['attributes']['confirmDetails']
-        speech_output = "You said " + confirm_details + ". Fantastic, goodbye."
-        should_end_session = True
-    else:
-        speech_output = "Incorrect, you said " + confirm_details \
-                        ". You can say, my child's name is Scarlett."
-        should_end_session = False
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
 
-    # Setting reprompt_text to None signifies that we do not want to reprompt
-    # the user. If the user does not respond or says something that is not
-    # understood, the session will end.
+    if 'ConfirmDetails' in intent['slots']:
+        confirm_details = intent['slots']['ConfirmDetails']['value']
+        session_attributes = create_confirm_details_attributes(confirm_details)
+        speech_output = "You said" + confirm_details
+        reprompt_text = "You can ask me your favorite color by saying, " \
+                        "what's my favorite color?"
+    else:
+        speech_output = "I'm not sure what your favorite color is. " \
+                        "Please try again."
+        reprompt_text = "I'm not sure what your favorite color is. " \
+                        "You can tell me your favorite color by saying, " \
+                        "my favorite color is red."
     return build_response(session_attributes, build_speechlet_response(
-        intent['name'], speech_output, reprompt_text, should_end_session))
+        card_title, speech_output, reprompt_text, should_end_session))
+
+
+    #     # old code
+    # session_attributes = {}
+    # reprompt_text = None
+    #
+    # if session.get('attributes', {}) and "confirmDetails" in session.get('attributes', {}):
+    #     confirm_details = session['attributes']['confirmDetails']
+    #     speech_output = "You said " + confirm_details + ". Fantastic, goodbye."
+    #     should_end_session = True
+    # else:
+    #     speech_output = "You have landed here" \
+    #                     "You can say, my child's name is Scarlett."
+    #     should_end_session = False
+    #
+    # # Setting reprompt_text to None signifies that we do not want to reprompt
+    # # the user. If the user does not respond or says something that is not
+    # # understood, the session will end.
+    # return build_response(session_attributes, build_speechlet_response(
+    #     intent['name'], speech_output, reprompt_text, should_end_session))
 
 
 # --------------- Events ------------------
