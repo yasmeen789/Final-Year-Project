@@ -143,14 +143,23 @@ def set_confirm_details_from_session(intent, session):
 
     card_title = intent['name']
     session_attributes = {}
-    should_end_session = False
 
     if 'ConfirmDetails' in intent['slots']:
         confirm_details = intent['slots']['ConfirmDetails']['value']
         session_attributes = create_confirm_details_attributes(confirm_details)
-        speech_output = "You said" + confirm_details
-        reprompt_text = "You can ask me your favorite color by saying, " \
-                        "what's my favorite color?"
+        if confirm_details == 'true':
+            speech_output = "You said" + confirm_details
+            should_end_session = True
+        elif confirm_details == 'false':
+            speech_output = "Please tell me the name and date of birth of the child "\
+                            " that will be using this application."\
+                            " For example, my child's name is "\
+                            "Scarlet and her date of birth is the 21st September 2003."
+            should_end_session = False
+        else:
+            speech_output = "I don't know what you said"
+
+
     else:
         speech_output = "I'm not sure what your favorite color is. " \
                         "Please try again."
@@ -159,27 +168,6 @@ def set_confirm_details_from_session(intent, session):
                         "my favorite color is red."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
-
-
-    #     # old code
-    # session_attributes = {}
-    # reprompt_text = None
-    #
-    # if session.get('attributes', {}) and "confirmDetails" in session.get('attributes', {}):
-    #     confirm_details = session['attributes']['confirmDetails']
-    #     speech_output = "You said " + confirm_details + ". Fantastic, goodbye."
-    #     should_end_session = True
-    # else:
-    #     speech_output = "You have landed here" \
-    #                     "You can say, my child's name is Scarlett."
-    #     should_end_session = False
-    #
-    # # Setting reprompt_text to None signifies that we do not want to reprompt
-    # # the user. If the user does not respond or says something that is not
-    # # understood, the session will end.
-    # return build_response(session_attributes, build_speechlet_response(
-    #     intent['name'], speech_output, reprompt_text, should_end_session))
-
 
 # --------------- Events ------------------
 
