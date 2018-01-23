@@ -8,7 +8,6 @@ http://amzn.to/1LGWsLG
 
 from __future__ import print_function
 
-
 # --------------- Helpers that build all of the responses ----------------------
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
@@ -49,11 +48,13 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to your child companion setup. "\
-                    "Please tell me the name and date of birth of the child "\
-                    " that will be using this application."\
-                    " For example, my child's name is "\
-                    "Scarlet and her date of birth is the 21st September 2003."
+    speech_output = "Name and date of birth"
+                    # "Welcome to your child companion setup. "\
+                    # "Please tell me the name and date of birth of the child "\
+                    # " that will be using this application."\
+                    # " For example, my child's name is "\
+                    # "Scarlet and her date of birth is the 21st September 2003."
+
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "Please tell me the name and date of birth of the child "\
@@ -86,12 +87,6 @@ def create_month_of_birth(month_of_birth):
 
 def create_year_of_birth(year_of_birth):
     return {"yearOfBirth": year_of_birth}
-
-# def get_childs_details_from_session(intent, session):
-#     """ Sets the child's name in the session and prepares the speech to reply to the
-#     user.
-#     """
-#   ## Not sure whether this is needed or not
 
 def set_childs_details_in_session(intent, session):
     session_attributes = {}
@@ -150,8 +145,9 @@ def set_confirm_details_from_session(intent, session):
         confirm_details = intent['slots']['ConfirmDetails']['value']
         session_attributes = create_confirm_details_attributes(confirm_details)
         if confirm_details == 'true':
-            speech_output = "You said" + confirm_details
-            should_end_session = True
+            speech_output = "Setup complete. To begin reading 'The Gruffalo '"\
+                            "by Julia Donaldson, say start."
+            should_end_session = False
         elif confirm_details == 'false':
             speech_output = "Please tell me the name and date of birth of the child "\
                             " that will be using this application."\
@@ -160,8 +156,6 @@ def set_confirm_details_from_session(intent, session):
             should_end_session = False
         else:
             speech_output = "I don't know what you said"
-
-
     else:
         speech_output = "I'm not sure what your child's name is. " \
                         "Please try again."
@@ -172,6 +166,17 @@ def set_confirm_details_from_session(intent, session):
                         "Scarlet and her date of birth is the 21st September 2003."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
+def get_request_start_reading(intent, session):
+    session_attributes = {}
+    reprompt_text = None
+
+    speech_output = "You have requested to start reading the Gruffalo."
+    # audio goes here
+    should_end_session = True
+
+    return build_response(session_attributes, build_speechlet_response(
+        intent['name'], speech_output, reprompt_text, should_end_session))
 
 # --------------- Events ------------------
 
@@ -207,6 +212,16 @@ def on_intent(intent_request, session):
         return set_childs_details_in_session(intent, session)
     elif intent_name == "ConfirmChildsNameIntent":
         return set_confirm_details_from_session(intent, session)
+    elif intent_name == "StartIntent":
+        return start_instructions(intent, session)
+    elif intent_name == "AMAZON.NextIntent":
+        return get_next(intent, session)
+    elif intent_name == "AMAZON.PauseIntent":
+        return set_pause(intent, session)
+    elif intent_name == "AMAZON.ResumeIntent":
+        return get_repeat(intent, session)
+    elif intent_name == "StartReadingBook":
+        return get_request_start_reading(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":

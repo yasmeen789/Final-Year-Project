@@ -32,6 +32,21 @@
     },
     {
       "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "Play"
+    },
+    {
+      "intent": "AMAZON.NextIntent"
+    },
+    {
+      "intent": "StartReadingBook"
+    },
+    {
+      "intent": "AMAZON.PauseIntent"
+    },
+    {
+      "intent": "AMAZON.ResumeIntent"
     }
   ]
 }
