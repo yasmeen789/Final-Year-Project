@@ -2,6 +2,7 @@
 This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
 The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well
 as testing instructions are located at http://amzn.to/1LzFrj6
+
 For additional samples, visit the Alexa Skills Kit Getting Started guide at
 http://amzn.to/1LGWsLG
 """
@@ -49,13 +50,13 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to your child companion setup. "\
-                    "Please tell me the name of the child that will be "\
-                    "using this application. "
+    speech_output = "Welcome to the Alexa Skills Kit sample. " \
+                    "Please tell me your favorite color by saying, " \
+                    "my favorite color is red"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me the name of the child that will be "\
-                    "using this application. "
+    reprompt_text = "Please tell me your favorite color by saying, " \
+                    "my favorite color is red."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -63,7 +64,7 @@ def get_welcome_response():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for using your child's companion. " \
+    speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
                     "Have a nice day! "
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
@@ -168,6 +169,7 @@ def on_intent(intent_request, session):
 
 def on_session_ended(session_ended_request, session):
     """ Called when the user ends the session.
+
     Is not called when the skill returns should_end_session=true
     """
     print("on_session_ended requestId=" + session_ended_request['requestId'] +

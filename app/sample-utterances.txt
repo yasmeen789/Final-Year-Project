@@ -3,3 +3,5 @@ MyChildsNameIsIntent {Child} and the {Date} {Month} {Year}
 MyChildsNameIsIntent {Child} {Date} {Month} {Year}
 ConfirmChildsNameIntent that is {ConfirmDetails}
 ConfirmChildsNameIntent {ConfirmDetails}
+StartReadingBook start
+StartReadingBook start reading
